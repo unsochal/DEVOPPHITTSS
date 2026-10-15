@@ -18,4 +18,5 @@ def dividir(a, b):
     return a / b
 
 
-# Función de potencia (TODO)
+def potencia(a, b):
+    return a ** b
