@@ -20,11 +20,23 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Cache de dependencias pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            pip-${{ runner.os }}-
+
       - name: Instalar dependencias
         run: pip install -r requirements.txt
 
       - name: Linting con flake8
         run: flake8 . --max-line-length=100 --exclude=.git,__pycache__,.venv
 
-      - name: Ejecutar tests unitarios
-        run: pytest tests/ -v
+      - name: Tests con coverage
+        run: pytest tests/ -v --tb=short --junitxml=test-results/r        run: pytest n        run: pytest tests/ -v --tb=short --jes: actions/upload-artifact@v4
+        if:         if:      wi  :
+                           s-            un_number }}
+          path: tes       ts/
+          retention-days: 30
