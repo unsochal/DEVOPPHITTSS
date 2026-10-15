@@ -4,10 +4,7 @@ trigger:
       - main
 
 pool:
-  vmImage: 'ubuntu-latest'
-
-variables:
-  pythonVersion: '3.11'
+  vmImage: 'ubuntu-22.04'
 
 stages:
   - stage: CI
@@ -16,16 +13,11 @@ stages:
       - job: LintAndTest
         displayName: 'Lint y Tests'
         steps:
-          - task: UsePythonVersion@0
-            displayName: 'Configurar Python $(pythonVersion)'
-            inputs:
-              versionSpec: '$(pythonVersion)'
-
-          - script: pip install -r requirements.txt
+          - script: pip3 install -r requirements.txt
             displayName: 'Instalar dependencias'
 
-          - script: flake8 . --max-line-length=100 --exclude=.git,__pycache__,.venv
+          - script: python3 -m flake8 . --max-line-length=100 --exclude=.git,__pycache__,.venv
             displayName: 'Linting con flake8'
 
-          - script: pytest tests/ -v
+          - script: python3 -m pytest tests/ -v
             displayName: 'Tests unitarios'
