@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy-staging:
-    name: Deploy → Staging
+    name: Deploy Staging
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     environment: staging
@@ -20,26 +20,23 @@ jobs:
         run: |
           echo "========================================="
           echo "  DEPLOY A STAGING"
-          echo "  Versión: ${{ github.sha }}"
+          echo "  Version: ${{ github.sha }}"
           echo "  Ambiente: ${{ vars.APP_ENV }}"
-          echo "  Réplicas: ${{ vars.REPLICA_COUNT }}"
+          echo "  Replicas: ${{ vars.REPLICA_COUNT }}"
           echo "========================================="
           echo "Deploy completado exitosamente en staging"
 
   deploy-production:
-    name: Deploy → Production
+    name: Deploy Production
     needs: deploy-staging
     runs-on: ubuntu-latest
     environment: production
 
     steps:
-                    s/          4
+      - uses: actions/checkout@v4
 
-      -       -       -       -       -             run: |
-          echo "========================================="
-          echo "  DEPLOY A PRODUCCIÓN"
-                     sión: ${{ github.sha }}"
-          echo "  Ambiente: ${{ vars.APP_ENV }}"
-          echo "  Réplicas: ${{ vars.REPLICA_COUNT }}"
-          echo "========================================="
-          echo "Deploy completado exitosamente en producción"
+      - name: Simular deploy en Produccion
+        run: |
+                                        == =============="
+             o "  DEPL             o "  DEPL     echo    Version: ${{ gith                     echo "  A    nte: ${{ vars.APP_ENV }}"
+          ech          ech          ech          ech          ech       =================================          ech      echo "Deploy completado exitosamente en produccion"
