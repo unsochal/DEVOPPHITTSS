@@ -37,6 +37,10 @@ jobs:
 
       - name: Simular deploy en Produccion
         run: |
-                                        == =============="
-             o "  DEPL             o "  DEPL     echo    Version: ${{ gith                     echo "  A    nte: ${{ vars.APP_ENV }}"
-          ech          ech          ech          ech          ech       =================================          ech      echo "Deploy completado exitosamente en produccion"
+          echo "========================================="
+          echo "  DEPLOY A PRODUCCION"
+          echo "  Version: ${{ github.sha }}"
+          echo "  Ambiente: ${{ vars.APP_ENV }}"
+          echo "  Replicas: ${{ vars.REPLICA_COUNT }}"
+          echo "========================================="
+          echo "Deploy completado exitosamente en produccion"
