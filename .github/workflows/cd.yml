@@ -16,15 +16,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Simular deploy en Staging
+      - name: Verificar configuración del ambiente
         run: |
           echo "========================================="
           echo "  DEPLOY A STAGING"
-          echo "  Version: ${{ github.sha }}"
           echo "  Ambiente: ${{ vars.APP_ENV }}"
-          echo "  Replicas: ${{ vars.REPLICA_COUNT }}"
+          echo "  Réplicas: ${{ vars.REPLICA_COUNT }}"
+          echo "  DB configurada: ${{ secrets.DB_URL != '' && 'SI' || 'NO' }}"
+          echo "  API Key configurada: ${{ secrets.API_KEY != '' && 'SI' || 'NO' }}"
           echo "========================================="
-          echo "Deploy completado exitosamente en staging"
+
+      - name: Ejecutar Rolling Update en Staging
+        run: |
+          chmod +x scripts/deploy.sh
+          REPLICA_COUNT=${{ vars.REPLICA_COUNT }} ./scripts/deploy.sh ${{ github.sha }}
 
   deploy-production:
     name: Deploy Production
@@ -35,12 +40,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Simular deploy en Produccion
+      - name: Verificar configuración del ambiente
         run: |
           echo "========================================="
           echo "  DEPLOY A PRODUCCION"
-          echo "  Version: ${{ github.sha }}"
           echo "  Ambiente: ${{ vars.APP_ENV }}"
-          echo "  Replicas: ${{ vars.REPLICA_COUNT }}"
+          echo "  Réplicas: ${{ vars.REPLICA_COUNT }}"
+          echo "  DB configurada: ${{ secrets.DB_URL != '' && 'SI' || 'NO' }}"
+          echo "  API Key configurada: ${{ secrets.API_KEY != '' && 'SI' || 'NO' }}"
           echo "========================================="
-          echo "Deploy completado exitosamente en produccion"
+
+      - name: Ejecutar Rolling Update en Produccion
+        run: |
+          chmod +x scripts/deploy.sh
+          REPLICA_COUNT=${{ vars.REPLICA_COUNT }} ./scripts/deploy.sh ${{ github.sha }}
+          
