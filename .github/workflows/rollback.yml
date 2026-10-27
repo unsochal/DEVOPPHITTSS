@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Versión a la que revertir (ej: abc1234)"
+        description: "Versión a la que revertir (ej: abc1234 o main)"
         required: true
         type: string
       environment:
@@ -20,7 +20,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.version }}
+          fetch-depth: 0
+
+      - name: Cambiar al commit o rama especificada
+        run: git checkout ${{ inputs.version }}
 
       - name: Ejecutar rollback
         run: |
