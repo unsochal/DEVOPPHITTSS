@@ -20,7 +20,3 @@ def dividir(a, b):
 
 def potencia(a, b):
     return a ** b
-
-
-def funcion_nueva_con_bug():
-    return 1 / 0
