@@ -28,5 +28,5 @@ jobs:
           helm upgrade --install devops-app helm/devops-app \
             --namespace staging \
             --create-namespace \
-            --set image.tag=${{ github.sha }} \
+            --set image.tag=1.25-alpine \
             --wait --timeout 5m
