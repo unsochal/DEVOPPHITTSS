@@ -23,6 +23,7 @@ resource "azurerm_storage_account" "main" {
 }
 
 resource "azurerm_kubernetes_cluster" "aks" {
+  oidc_issuer_enabled = true
   name                = "aks-${var.environment}-devops"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
