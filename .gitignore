@@ -20,3 +20,9 @@ build/
 terraform/.terraform/
 *.tfstate
 *.tfstate.backup
+
+# Terraform
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+*.tfvars.local
