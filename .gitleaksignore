@@ -1,0 +1,7 @@
+# Falsos positivos: secret.yaml con valor de practica (staging)
+2bd74239c4ab528843db6e3d40e49a6a41d0d1c8:secret.yaml:generic-api-key:8
+2bd74239c4ab528843db6e3d40e49a6a41d0d1c8:secret.yaml:generic-api-key:9
+2bd74239c4ab528843db6e3d40e49a6a41d0d1c8:secret.yaml:kubernetes-secret-yaml:2
+69bf929af606f6b9805e420366842dc772df349a:secret.yaml:generic-api-key:8
+69bf929af606f6b9805e420366842dc772df349a:secret.yaml:generic-api-key:9
+69bf929af606f6b9805e420366842dc772df349a:secret.yaml:kubernetes-secret-yaml:2
