@@ -7,7 +7,6 @@ on:
   pull_request:
     branches: [main]
     paths: ['terraform/**']
-  workflow_dispatch:
 
 permissions:
   contents: read
@@ -17,15 +16,6 @@ jobs:
   terraform:
     name: Plan y Apply
     runs-on: ubuntu-latest
-    env:
-      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-    defaults:
-      run:
-        working-directory: terraform
-
     steps:
       - uses: actions/checkout@v4
 
@@ -33,18 +23,39 @@ jobs:
         with:
           terraform_version: "1.6.0"
 
+      - name: Login en Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Terraform Init
+        working-directory: terraform
         run: terraform init
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
       - name: Terraform Format Check
-        run: terraform fmt -check
-
-      - name: Terraform Validate
+        working-directory: terraform
+        run: terraform f        run: terraform f        run: terrafor       working-directory: terraform
         run: terraform validate
 
-      - name: Terraform Plan
-        run: terraform plan -no-color -out=tfplan
+      - name: T      -m Plan
+        working-directory: terraform
+        run: terraform plan   o-color -out=tfplan
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
-      - name: Terraform Apply (solo en main)
+      -       -       -    ly (solo en main)
         if: github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve tfplan
+        working-directory: terraform
+        run: terraform apply -auto-approve   plan
+        env:
+          ARM_CLIENT          ARM_CLIENT          ARM_CLIENT          ARNT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
