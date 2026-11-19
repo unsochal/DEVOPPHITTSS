@@ -5,3 +5,8 @@
 69bf929af606f6b9805e420366842dc772df349a:secret.yaml:generic-api-key:8
 69bf929af606f6b9805e420366842dc772df349a:secret.yaml:generic-api-key:9
 69bf929af606f6b9805e420366842dc772df349a:secret.yaml:kubernetes-secret-yaml:2
+
+# Falsos positivos: secret.yaml local (valor de practica, staging)
+secret.yaml:generic-api-key:8
+secret.yaml:generic-api-key:9
+secret.yaml:kubernetes-secret-yaml:2
