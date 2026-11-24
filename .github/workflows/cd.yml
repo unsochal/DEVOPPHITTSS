@@ -9,28 +9,56 @@ on:
 jobs:
   deploy-staging:
     name: Deploy → Staging
-                               ow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     environment: staging
+
     steps:
       - uses: actions/checkout@v4
 
       - name: Simular deploy en Staging
         run: |
           echo "========================================="
-                                                 o "  Versión:                                            te                                         Réplicas: ${{ vars.REPLICA_COUNT }}"
+          echo "  DEPLOY A STAGING"
+          echo "  Versión: ${{ github.sha }}"
+          echo "  Ambiente: ${{ vars.APP_ENV }}"
+          echo "  Réplicas: ${{ vars.REPLICA_COUNT }}"
           echo "========================================="
-                                                                                                                        ru                                                               cho                                                   ||   O'                      gin en Azure
+          echo "Deploy completado exitosamente en staging"
+
+      - name: Verificar configuración del ambiente
+        run: |
+          echo "Ambiente: ${{ vars.APP_ENV }}"
+          echo "DB configurada: ${{ secrets.DB_URL != '' && 'SI' || 'NO' }}"
+          # NUNCA hacer: echo ${{ secrets.DB_URL }}
+          # Los secrets nunca se imprimen en logs
+
+      - name: Login en Azure
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.A          creds: ${{ secrets.A          creds:AK          run: |
-          az aks get-credentials \             --res          a rg-staging-devops \
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Conectar a AKS
+        run: |
+          az aks get-credentials \
+            --resource-group rg-staging-devops \
             --name aks-staging-devops
 
-      - name: Helm depl      - name: Helm de run:       -     helm upgrade --install d      - name: Helm depl      - n         - name: Helm depl      -         -    ate-namespace \
-            --set image.repository=${{ secrets.DOCKERH            --set image.repository=${{ secrets.DOCKERH            --set image.repository=${{ secrets.DOCKERH            --set image.repository=${{ secrets.DOCKERH            --set-staging
+      - name: Helm deploy en Staging
+        run: |
+          helm upgrade --install devops-app helm/devops-app \
+            --namespace staging \
+            --create-namespace \
+            --set image.repository=${{ secrets.DOCKERHUB_USERNAME }}/devops-app \
+            --set image.tag=${{ github.sha }} \
+            --wait --timeout 5m
+
+  deploy-production:
+    name: Deploy → Production
+    needs: deploy-staging
     runs-on: ubuntu-latest
     environment: production
+
     steps:
       - uses: actions/checkout@v4
 
